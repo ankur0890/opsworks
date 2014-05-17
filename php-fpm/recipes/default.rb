@@ -18,7 +18,8 @@ packages = [
   'php54-mysql',
   'php54-mcrypt',
   'php54-soap',
-  'php54-pecl-memcached'
+  'php54-pecl-memcached',
+  'php54-mbstring'
 ]
 
 # install all the packages
