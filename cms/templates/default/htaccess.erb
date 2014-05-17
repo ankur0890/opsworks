@@ -1,0 +1,68 @@
+SetEnv APPLICATION_ENV <%= @env%>
+Options -Indexes +FollowSymLinks
+
+php_value upload_max_filesize 12M
+php_value post_max_size 50M
+php_value memory_limit 256M
+php_value max_execution_time 120
+
+<FilesMatch "\.(php|svg|ttf|otf|woff|js|css|json)$">
+	SetOutputFilter DEFLATE
+</FilesMatch>
+
+AddType application/vnd.ms-fontobject .eot
+AddType font/opentype .otf
+AddType font/truetype .ttf
+AddType application/x-font-woff .woff
+
+SetEnvIf mime 'image/.*' or mime 'text/javascript' or mime 'text/css' or mime 'application/x-javascript' or mime 'application/vnd.ms-fontobject' or 'mime font/.*' or mime 'application/x-font-woff' or mime 'application/json' unset-cookie=true
+Header unset Set-Cookie env=unset-cookie
+
+<ifModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType text/javascript		A2592000
+	ExpiresByType text/css				A2592000
+	ExpiresByType image/gif				A2592000
+	ExpiresByType image/jpeg			A2592000
+	ExpiresByType image/png				A2592000
+	ExpiresByType image/ico				A2592000
+</ifModule>
+
+<ifModule mod_headers.c>
+	<filesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|js|css|eot|ttf|woff)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</filesMatch>
+	<FilesMatch "\.(js|css|xml|gz|json)$">
+		Header append Vary Accept-Encoding
+	</FilesMatch>
+</ifModule>
+
+<FilesMatch "\.(php|svg|ttf|otf|woff|js|css|json)$">
+	SetOutputFilter DEFLATE
+</FilesMatch>
+
+FileETag MTime Size
+
+#Deflate compression by content type
+AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/javascript text/css application/x-javascript application/json
+
+#ErrorDocument 404 /
+
+RewriteEngine On
+RewriteBase /
+
+#RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+# Redirect PHP files to URL without .php in the end - helps to keep SEO with upgraded sites from PHP -> CMS Premium
+RewriteCond %{REQUEST_URI} \.php$
+RewriteRule ^(.*)\.php$ /$1 [R=301,L]
+
+RewriteRule ^.*$ index.php [NC,L]
+
+# Fix for infinite loops
+RewriteCond %{ENV:REDIRECT_STATUS} 200
+RewriteRule .* - [L]

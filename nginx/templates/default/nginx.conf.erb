@@ -19,6 +19,7 @@ http {
   tcp_nodelay on;
 
   <% if node[:nginx][:keepalive] == "on" %>
+  keepalive_requests 200;
   keepalive_timeout  <%= node[:nginx][:keepalive_timeout] %>;
   <% end %>
 
@@ -34,6 +35,10 @@ http {
   <% end %>
 
   client_max_body_size <%= node[:nginx][:client_max_body_size] %>;
+  client_body_timeout 60;
+  client_header_timeout 10;
+  large_client_header_buffers 4 16k;
+  send_timeout 60;
 
   server_names_hash_bucket_size <%= node[:nginx][:server_names_hash_bucket_size] %>;
 

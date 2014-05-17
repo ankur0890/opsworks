@@ -1,13 +1,26 @@
 server {
   listen   80;
-  server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  server_name  .<%= @application[:domains].join(" .") %> <%= node[:hostname] %> .dev.hebsdigital.com .amazonaws.com;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
+  root   <%= @application[:absolute_document_root] %>;
 
   location / {
-    root   <%= @application[:absolute_document_root] %>;
-    index  index.html index.htm index.php;
+	index index.php index.html;
+	try_files $uri $uri/ /index.php?$query_string;
   }
   
+  include /etc/nginx/enable-php;
+  #include /etc/nginx/default-params;
+
+  # include specific conf files from the root, if any
+  include <%= @application[:absolute_document_root] %>*.conf;
+
+  # Force WWW redirect
+  if ($host ~* ^([a-z0-9\-]+\.(com|net|org))$) {
+      set $host_with_www www.$1;
+      rewrite ^(.*)$ http://$host_with_www$1 permanent;
+  }
+
   # Block all svn access
   if ($request_uri ~* ^.*\.svn.*$) {
      return 404;
@@ -24,8 +37,37 @@ server {
     allow 127.0.0.1;
     deny all;
   }
+
+  #BEGIN: CUSTOM NGINX CONFIG
+  <%= @node[:cms][:nginx][:customConfig] %>
+  #END: CUSTOM NGINX CONFIG
   
 }
+
+
+#BEGIN: CUSTOM NGINX REDIRECTS
+  <% redirects = (node[:cms][:nginx][:redirects] rescue []) %>
+  <% if redirects %>
+      <% redirects.each do |redirect| %>
+        <%= <<-EOT
+        server {
+            listen 80;
+            server_name  .#{redirect[:source]};
+            rewrite ^(.*) #{redirect[:target]}#{redirect[:forward] ? '$1' : ''} permanent;
+        }
+        EOT
+        %>
+      <% end %>
+  <% end %>
+#END: CUSTOM NGINX REDIRECTS
+
+#BEGIN: EMPTY RESPONSE FOR INCORRECT SERVER_NAME
+server {
+    	listen       80  default_server;
+    	server_name  _;
+    	return 444;
+}
+#END: EMPTY RESPONSE FOR INCORRECT SERVER_NAME
 
 <% if @application[:ssl_support] %>
 server {
@@ -40,10 +82,17 @@ server {
   ssl_client_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.ca;
   <% end -%>
 
+  root   <%= @application[:absolute_document_root] %>;
   location / {
-    root   <%= @application[:absolute_document_root] %>;
-    index  index.html index.htm index.php;
+	index index.php index.html;
+	try_files $uri $uri/ /index.php?$query_string;
   }
+
+  include /etc/nginx/enable-php;
+  #include /etc/nginx/default-params;
+
+  # include specific conf files from the root, if any
+  include <%= @application[:absolute_document_root] %>*.conf;
   
   # Block all svn access
   if ($request_uri ~* ^.*\.svn.*$) {

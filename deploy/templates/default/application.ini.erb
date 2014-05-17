@@ -1,0 +1,24 @@
+; Framework config
+
+[production]
+resources.db.adapter = "mysqli"
+resources.db.params.prefix = "h6_"
+resources.db.params.host = "<%= @host%>"
+resources.db.params.username = "<%= @username%>"
+resources.db.params.password = "<%= @password%>"
+resources.db.params.dbname = "<%= @database%>"
+resources.db.params.profiler.enabled = false
+resources.db.isDefaultTableAdapter = true
+resources.db.params.charset = "utf8"
+resources.db.params.driver_options.1002 = "SET NAMES utf8;"
+
+; Skin options
+skin.path = WEB_ROOT "/skins"
+skin.default = "<%= @defaultSkin%>"
+skin.current = "master"
+
+; Cloud env
+aws.cloud.environment = "production"
+
+[development:production]
+[testing:development]

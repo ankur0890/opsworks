@@ -1,10 +1,10 @@
-#
-# Cookbook Name:: deploy
-# Recipe:: php
-#
-
 include_recipe 'deploy'
+#include_recipe "mod_php5_apache2"
+#include_recipe "mod_php5_apache2::php"
 
+Chef::Log.debug("Running deploy/recipes/php.rb")
+
+# run the deploy without reconfiguring the virtual hosts and not restarting the Apache
 node[:deploy].each do |application, deploy|
   if deploy[:application_type] != 'php'
     Chef::Log.debug("Skipping deploy::php application #{application} as it is not an PHP app")
@@ -22,4 +22,3 @@ node[:deploy].each do |application, deploy|
     app application
   end
 end
-

@@ -33,6 +33,10 @@ listen.allowed_clients = <%= [@allowed_clients].flatten.join "," %>
 ;listen.group = nobody
 ;listen.mode = 0666
 
+listen.owner = <%= @user %>
+listen.group = <%= @group %>
+listen.mode = 0660
+
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
@@ -145,7 +149,7 @@ pm.max_requests = <%= @max_requests %>
 ; does not stop script execution for some reason. A value of '0' means 'off'.
 ; Available units: s(econds)(default), m(inutes), h(ours), or d(ays)
 ; Default Value: 0
-;request_terminate_timeout = 0
+request_terminate_timeout = <%= @request_terminate_timeout %>
 
 ; The timeout for serving a single request after which a PHP backtrace will be
 ; dumped to the 'slowlog' file. A value of '0s' means 'off'.
@@ -156,7 +160,7 @@ pm.max_requests = <%= @max_requests %>
 ; The log file for slow requests
 ; Default Value: not set
 ; Note: slowlog is mandatory if request_slowlog_timeout is set
-;slowlog = /var/log/php-fpm/www-slow.log
+slowlog = /var/log/php-fpm/www-slow.log
 
 ; Set open file descriptor rlimit.
 ; Default Value: system defined value
@@ -218,10 +222,10 @@ pm.max_requests = <%= @max_requests %>
 ; Default Value: nothing is defined by default except the values in php.ini and
 ;                specified at startup with the -d argument
 ;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
-;php_flag[display_errors] = off
-;php_admin_value[error_log] = /var/log/php-fpm/www-error.log
-;php_admin_flag[log_errors] = on
-;php_admin_value[memory_limit] = 128M
+php_flag[display_errors] = off
+php_admin_value[error_log] = /var/log/php-fpm/www-error.log
+php_admin_flag[log_errors] = on
+php_admin_value[memory_limit] = 256M
 
 ; Set session path to a directory owned by process user
 ;php_value[session.save_handler] = files
