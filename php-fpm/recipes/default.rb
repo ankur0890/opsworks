@@ -15,17 +15,10 @@ packages = [
   'php54-xmlrpc',
   'php54-gd',
   'php54-cli',
-  'php-mysqli',
+  'php54-mysql',
   'php54-mcrypt',
-  'php-mhash',
   'php54-soap',
-  'php54-pecl-memcached',
-  'php-pear',
-  'php-pear-Auth-SASL',
-  'php-pear-XML-Parser',
-  'php-pear-Mail-Mime',
-  'php-pear-DB',
-  'php-pear-HTML-Common'
+  'php54-pecl-memcached'
 ]
 
 # install all the packages
