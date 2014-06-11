@@ -39,14 +39,14 @@ server {
   }
 
   #BEGIN: CUSTOM NGINX CONFIG
-  <%= @node[:cms][:nginx][:customConfig] %>
+  <%= @node[:promo][:nginx][:customConfig] %>
   #END: CUSTOM NGINX CONFIG
   
 }
 
 
 #BEGIN: CUSTOM NGINX REDIRECTS
-  <% redirects = (node[:cms][:nginx][:redirects] rescue []) %>
+  <% redirects = (node[:promo][:nginx][:redirects] rescue []) %>
   <% if redirects %>
       <% redirects.each do |redirect| %>
         <%= <<-EOT
