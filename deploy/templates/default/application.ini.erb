@@ -1,24 +1,19 @@
-; Framework config
-
 [production]
 resources.db.adapter = "mysqli"
-resources.db.params.prefix = "h6_"
+resources.db.params.prefix = "hp_"
 resources.db.params.host = "<%= @host%>"
 resources.db.params.username = "<%= @username%>"
 resources.db.params.password = "<%= @password%>"
 resources.db.params.dbname = "<%= @database%>"
-resources.db.params.profiler.enabled = false
-resources.db.isDefaultTableAdapter = true
 resources.db.params.charset = "utf8"
-resources.db.params.driver_options.1002 = "SET NAMES utf8;"
+resources.db.isDefaultTableAdapter = true
 
-; Skin options
-skin.path = WEB_ROOT "/skins"
-skin.default = "<%= @defaultSkin%>"
-skin.current = "master"
-
-; Cloud env
-aws.cloud.environment = "production"
+aws.credentials.access_key = "<%= @aws_accessKey%>"
+aws.credentials.secret_key = "<%= @aws_secretKey%>"
+aws.s3.bucket_name = "<%= @aws_s3_bucket%>"
+aws.s3.path_prefix = "<%= @aws_s3_bucket_prefix%>"
+aws.ses.access_key = "<%= @aws_ses_accessKey%>"
+aws.ses.secret_key = "<%= @aws_ses_secretKey%>"
 
 [development:production]
 [testing:development]
