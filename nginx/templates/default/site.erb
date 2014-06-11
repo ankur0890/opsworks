@@ -2,7 +2,7 @@ server {
   listen   80;
   server_name  .<%= @application[:domains].join(" .") %> <%= node[:hostname] %> .dev.hebsdigital.com .amazonaws.com;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
-  root   <%= @application[:absolute_document_root] %>/public/;
+  root   <%= @application[:absolute_document_root] %>public/;
 
   location / {
 	index index.php index.html;
@@ -82,7 +82,7 @@ server {
   ssl_client_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.ca;
   <% end -%>
 
-  root   <%= @application[:absolute_document_root] %>/public/;
+  root   <%= @application[:absolute_document_root] %>public/;
   location / {
 	index index.php index.html;
 	try_files $uri $uri/ /index.php?$query_string;
