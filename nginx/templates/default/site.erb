@@ -66,14 +66,6 @@ server {
   <% end %>
 #END: CUSTOM NGINX REDIRECTS
 
-#BEGIN: EMPTY RESPONSE FOR INCORRECT SERVER_NAME
-server {
-    	listen       80  default_server;
-    	server_name  _;
-    	return 444;
-}
-#END: EMPTY RESPONSE FOR INCORRECT SERVER_NAME
-
 <% if @application[:ssl_support] %>
 server {
   listen   443;
