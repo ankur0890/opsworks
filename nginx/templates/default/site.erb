@@ -37,11 +37,6 @@ server {
     allow 127.0.0.1;
     deny all;
   }
-
-  #BEGIN: CUSTOM NGINX CONFIG
-  <%= node[:cms][:nginx][:customConfig] %>
-  #END: CUSTOM NGINX CONFIG
-  
 }
 
 
