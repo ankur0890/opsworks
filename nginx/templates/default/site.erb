@@ -39,7 +39,7 @@ server {
   }
 
   #BEGIN: CUSTOM NGINX CONFIG
-  <%= @node[:cms][:nginx][:customConfig] %>
+  <%= node[:cms][:nginx][:customConfig] %>
   #END: CUSTOM NGINX CONFIG
   
 }
