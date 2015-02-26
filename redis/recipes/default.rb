@@ -85,7 +85,7 @@ end
 # Set up redis service
 service 'redis' do
   supports :reload => false, :restart => true, :start => true, :stop => true
-  action [ :enable, :start ]
+  action [ :enable, :start ], :immediately
 end
 
 # Ensure change notifies redis to restart (Comes after resource decliration for OpsWorks chef ~ 9.15) :(
