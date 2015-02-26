@@ -6,6 +6,7 @@ default['php-fpm']['log_level'] = "notice"
 default['php-fpm']['emergency_restart_threshold'] = 1
 default['php-fpm']['emergency_restart_interval'] = "1m"
 default['php-fpm']['process_control_timeout'] = 30
+default['php']['ext_conf_dir']  = '/etc/php.d'
 
 
 default['php-fpm']['pools'] = ["www"]
