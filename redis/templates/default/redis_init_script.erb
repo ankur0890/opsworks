@@ -2,6 +2,10 @@
 #
 # Simple Redis init.d script conceived to work on Linux systems
 # as it does use of the /proc filesystem.
+#
+# chkconfig:   - 85 15
+# description:  Redis is a persistent key-value database
+# processname: redis
 
 REDISPORT=<%= node[:redis][:port] %>
 EXEC=<%= node[:redis][:install_dir] %>/bin/redis-server
