@@ -15,7 +15,7 @@ bash 'make & install phpredis' do
   not_if 'php -m | grep redis'
 end
 
-file "#{node['php']['ext_conf_dir']}/redis.ini" do
+file "/etc/php.d/redis.ini" do
   owner 'root'
   group 'root'
   mode '0644'
