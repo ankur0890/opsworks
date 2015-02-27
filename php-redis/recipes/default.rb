@@ -20,7 +20,5 @@ file "#{node['php']['ext_conf_dir']}/redis.ini" do
   group 'root'
   mode '0644'
   content 'extension=redis.so'
-  content 'session.save_handler = redis'
-  content 'session.save_path=tcp://52.74.21.52:6379'
   not_if 'php -m | grep redis'
 end
